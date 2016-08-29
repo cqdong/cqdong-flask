@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 bootstarp = Bootstrap()
 moment = Moment()
+# db = SQLAlchemy(use_native_unicode='utf-8')
 db = SQLAlchemy()
 
 def create_app(config_name):

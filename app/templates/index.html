@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 
+<style type='text/css'>
+    div{word-break:break-all;}
+    div p{word-break;:break-all;}
+</style>
+
 {% block page_content %}
+    <div>
+        {% for post in posts %}
+            <div>
+                <h2><a href="{{ url_for('.post_detail', id=post.id) }}">{{ post.title }}</a></h2>
+                <div>
+                    {{ post.body|safe|truncate(200, True) }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
     <div>
         <p>
             现在时间：{{ moment().format('YYYY年M月D日,HH:mm:ss') }}

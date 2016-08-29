@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <div>
+        <div>
+            <h2>
+                {{ posts.title }}
+
+                <div class="pull-right" style="font-size: 16px; margin-top: 9px" margin>
+                    <a href="{{ url_for('.post_edit', id=posts.id) }}"><span class="glyphicon glyphicon-pencil" ></span></a>
+                    <a href="{{ url_for('.post_remove', id=posts.id) }}"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                </div>
+            </h2>
+
+        </div>
+
+        <div>
+            {{ posts.body|safe }}
+        </div>
+    </div>
+{% endblock %}

@@ -8,7 +8,7 @@ class Post(db.Model):
     # author_id = db.Column(db.Integer, db.ForeignKey(users.id))
     title = db.Column(db.String(128))
     body = db.Column(db.Text)
-    create_date = db.Column(db.DateTime, index=True, default=datetime.utcnow())
+    create_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     published_date = db.Column(db.DateTime)
 
     def publish(self):
