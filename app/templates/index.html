@@ -1,19 +1,36 @@
 {% extends "base.html" %}
 
-<style type='text/css'>
-    div{word-break:break-all;}
-    div p{word-break;:break-all;}
-</style>
-
 {% block page_content %}
     <div>
         {% for post in posts %}
-            <div>
-                <h2><a href="{{ url_for('.post_detail', id=post.id) }}">{{ post.title }}</a></h2>
+
+            <div  class="post_list">
+                <h2>
+                    <a href="{{ url_for('.post_detail', id=post.id) }}">
+                        <span class="glyphicon glyphicon-list-alt"></span> {{ post.title }}
+                    </a>
+                </h2>
+
                 <div>
                     {{ post.body|safe|truncate(200, True) }}
                 </div>
+
+                <div>
+                    {% if drafts %}
+                        <p>
+                            创建于：{{ moment(post.create_date).format('YYYY年M月D日,HH:mm:ss') }}
+                            <span class="pull-right">
+                                <a href="{{ url_for('.post_publish', id=post.id) }}">发布</a>
+                            </span>
+                        </p>
+                    {% else %}
+                        <p>
+                            发布于：{{ post.published_date}}
+                        </p>
+                    {% endif %}
+                </div>
             </div>
+
         {% endfor %}
     </div>
 

@@ -11,9 +11,6 @@ class Post(db.Model):
     create_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     published_date = db.Column(db.DateTime)
 
-    def publish(self):
-        self.publish_date = datetime.now()
-
     def __repr__(self):
         return 'title:%r'%self.title
 

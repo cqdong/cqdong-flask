@@ -8,7 +8,7 @@ from .. import db
 
 @main.route('/')
 def index():
-    post = Post.query.order_by(Post.create_date.desc()).all()
+    post = Post.query.filter(Post.published_date.isnot(None)).order_by(Post.published_date.desc()).all()
     return render_template('index.html', current_time=datetime.utcnow(), posts=post)
 
 @main.route('/posts', methods=['GET', 'POST'])
@@ -42,4 +42,16 @@ def post_edit(id):
 def post_remove(id):
     post = Post.query.get_or_404(id)
     db.session.delete(post)
+    return redirect(url_for('.index'))
+
+@main.route('/drafts')
+def post_drafts_list():
+    drafts = True
+    post = Post.query.filter_by(published_date=None).order_by(Post.create_date.desc()).all()
+    return render_template('index.html', posts=post, current_time=datetime.utcnow(), drafts=drafts)
+
+@main.route('/posts/publish/<id>')
+def post_publish(id):
+    post = Post.query.get_or_404(id)
+    post.published_date = datetime.utcnow()
     return redirect(url_for('.index'))

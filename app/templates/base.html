@@ -1,14 +1,15 @@
 {% extends "bootstrap/base.html" %}
 
-{% block scripts %}
+{% block head %}
     {{ super() }}
-    {{ moment.include_moment() }}
-    {{ moment.lang("zh-CN") }}
-{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
 
-{% block title %}
-    Cqdong
-{% endblock %}
+    {% block scripts %}
+        {{ super() }}
+        {{ moment.include_moment() }}
+        {{ moment.lang("zh-CN") }}
+    {% endblock %}
+{% endblock%}
 
 {% block navbar %}
     <div class="navbar navbar-inverse" role="navigation">
@@ -46,7 +47,11 @@
                 {{ message }}
             </div>
         {% endfor %}
-        {% block page_content %}
-        {% endblock%}
+        <div class="row">
+            <div class="col-lg-8">
+                {% block page_content %}
+                {% endblock%}
+            </div>
+        </div>
     </div>
 {% endblock%}
