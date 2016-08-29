@@ -11,7 +11,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:cqdong;@localhost/cqdong_blog'
 
 class ProductionConfig(Config):
-    DEBUG = False
+    DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
 config = {
