@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+    <div>
+        <div>
+            <h2>
+                {{ posts.title }}
+
+                <div class="pull-right" style="font-size: 16px; margin-top: 9px" margin>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('.post_edit', id=posts.id) }}"><span class="glyphicon glyphicon-pencil" ></span></a>
+                        <a href="{{ url_for('.post_remove', id=posts.id) }}"><span class="glyphicon glyphicon-remove-sign"></span></a>
+                    {% endif %}
+                </div>
+            </h2>
+
+        </div>
+
+        <div>
+            {{ posts.body|safe }}
+        </div>
+
+        <div>
+            <ul>
+                {% for comment in comments recursive %}
+                    <li id="{{ comment.id }}">
+                        <p>{{ comment.username }}{% if comment.parent %}回复{{ comment.parent.username }}{% endif %}{{ comment.timestamp }}</p>
+                        <p>{{ comment.body }}</p>
+
+                        <div class="reply" id="{{ comment.id }}">
+                        <form action method="post", role="form" class="form-inline" style="margin-top:20px;" id="f{{ comment.id }}">
+                            {{ comment_forms.hidden_tag() }}
+
+                            {% if comment.id %}
+                                <input type="hidden" name="parent" id="parent_id" value="{{ comment.id }}">
+                            {% endif %}
+
+                            <div class="form-group">
+                                <p>
+                                    <label class="sr-only" for="{{ comment.id }}_username">username</label>
+                                    <input class="form-control" name="username" id="{{ comment.id }}_username" placeholder="username" type="text">
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <p>
+                                    <label class="sr-only" for="{{ comment.id }}_email">email</label>
+                                    <input class="form-control" name="email" id="{{ comment.id }}_email" placeholder="email" type="text">
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <p>
+                                    <label class="sr-only" for="{{ comment.id }}_url">url</label>
+                                    <input class="form-control" name="url" id="{{ comment.id }}_url" placeholder="url" type="text">
+                                </p>
+                            </div>
+
+                            <div>
+                                <p>
+                                    <label class="sr-only" for="{{ comment.id }}_body">comment</label>
+                                </p>
+                                <p>
+                                    <textarea class="form-control" name="body" id="{{ comment.id }}_body" rows="5" style="width: 1000px;" placeholder="body" type="text"></textarea>
+                                </p>
+                            </div>
+
+                            <div>
+                                <input class="btn btn-xs" id="submit" name="submit" type="submit" value="Submit">
+                            </div>
+                        </form>
+                        </div>
+                    </li>
+                    {% if comment.children %}
+                        <ul>{{ loop(comment.children) }}</ul>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div>
+            {{ wtf.quick_form(comment_forms) }}
+        </div>
+    </div>
+{% endblock %}

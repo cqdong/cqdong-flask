@@ -1,0 +1,9 @@
+.post_list {
+    margin-bottom: 70px;
+}
+
+.cut {
+overflow:hidden;
+text-overflow:ellipsis;
+white-space: nowrap;
+}
