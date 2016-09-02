@@ -24,3 +24,4 @@ wheel==0.24.0
 WTForms==2.1
 psycopg2
 flask-login
+sqlalchemy_mptt
