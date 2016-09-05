@@ -16,16 +16,19 @@ def index():
     post = pagination.items
     return render_template('index.html', current_time=datetime.utcnow(), posts=post, pagination=pagination)
 
+
 @main.route('/posts', methods=['GET', 'POST'])
 @login_required
 def post_new():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, body=u'%s'%form.body.data)
+        post = Post(title=form.title.data, body=form.body.data)
+        post.body_abstract()
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('.index'))
     return render_template('post_edit.html', forms=form)
+
 
 @main.route('/posts/<int:id>', methods=['GET', 'POST'])
 def post_detail(id):
@@ -39,6 +42,7 @@ def post_detail(id):
         return redirect(url_for('.post_detail', id=post.id))
     return render_template('post_detail.html', posts=post, comment_forms=form, testmptts=testmptt, comments=post_comment)
 
+
 @main.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def post_edit(id):
@@ -47,10 +51,12 @@ def post_edit(id):
     if form.validate_on_submit():
         post.title = form.title.data
         post.body = form.body.data
+        post.body_abstract()
         return redirect(url_for('.post_detail', id=post.id))
     form.title.data = post.title
     form.body.data = post.body
     return render_template('post_edit.html', forms=form)
+
 
 @main.route('/posts/remove/<int:id>')
 @login_required
@@ -59,12 +65,16 @@ def post_remove(id):
     db.session.delete(post)
     return redirect(url_for('.index'))
 
+
 @main.route('/drafts')
 @login_required
 def post_drafts_list():
     drafts = True
-    post = Post.query.filter_by(published_date=None).order_by(Post.create_date.desc()).all()
-    return render_template('index.html', posts=post, current_time=datetime.utcnow(), drafts=drafts)
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.filter_by(published_date=None).order_by(Post.create_date.desc()).paginate(page, 3, False)
+    post = pagination.items
+    return render_template('post_drafts.html', posts=post, current_time=datetime.utcnow(), drafts=drafts, drafts_pagination=pagination)
+
 
 @main.route('/posts/publish/<id>')
 @login_required
@@ -72,6 +82,7 @@ def post_publish(id):
     post = Post.query.get_or_404(id)
     post.published_date = datetime.utcnow()
     return redirect(url_for('.index'))
+
 
 @main.route('/comment/<int:id>', methods=['GET', 'POST'])
 def post_comment(id):

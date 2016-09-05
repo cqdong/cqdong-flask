@@ -16,9 +16,12 @@
                 </div>
 
                 <div>
-                        <p>
-                            发布于：{{ post.published_date}}
-                        </p>
+                    <p>
+                        创建于：{{ moment(post.create_date).format('YYYY年M月D日,HH:mm:ss') }}
+                        <span class="pull-right">
+                            <a href="{{ url_for('.post_publish', id=post.id) }}">发布</a>
+                        </span>
+                    </p>
                 </div>
             </div>
 
@@ -26,7 +29,7 @@
     </div>
 
     <div>
-        {{ pagination_macro.pagination_widget(pagination, '.index') }}
+        {{ pagination_macro.pagination_widget(drafts_pagination, '.post_drafts_list') }}
     </div>
 
     <div>
