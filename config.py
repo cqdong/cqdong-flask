@@ -14,6 +14,11 @@ class ProductionConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
+class OpenShiftConfig(Config):
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%s:%s@%s/%s'%(os.getenv('MYSQL_USER'), os.getenv('MYSQL_PASSWORD'),
+                                                             os.getenv('MYSQL_HOSTNAME'), os.getenv('MYSQL_DATABASE'))
+
 config = {
     'default': DevelopmentConfig,
     'development': DevelopmentConfig,

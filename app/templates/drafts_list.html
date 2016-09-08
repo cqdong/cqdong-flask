@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "_pagination.html" as pagination_macro %}
+{% block page_content %}
+    <div>
+        {% for post in posts %}
+
+            <div  class="post_list">
+                <h2>
+                    <a href="{{ url_for('.post_detail', id=post.id) }}">
+                        <span class="glyphicon glyphicon-list-alt"></span> {{ post.title }}
+                    </a>
+                </h2>
+
+                <div>
+                    {{ post.body|safe|first|select("p") }}
+                </div>
+
+                <div>
+                    <p>
+                        创建于：{{ moment(post.create_date).format('YYYY年M月D日,HH:mm:ss') }}
+                        <span class="pull-right">
+                            <a href="{{ url_for('.post_publish', id=post.id) }}">发布</a>
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ pagination_macro.pagination_widget(pagination, '.post_drafts_list') }}
+    </div>
+
+    <div>
+        <p>
+            现在时间：{{ moment().format('YYYY年M月D日,HH:mm:ss') }}
+        </p>
+
+        <p>
+            已经过去：{{ moment(current_time).fromNow(refresh=True) }}
+        </p>
+
+        <p>
+            {{ moment().calendar() }}
+        </p>
+    </div>
+{% endblock %}

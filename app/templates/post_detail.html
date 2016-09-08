@@ -17,7 +17,10 @@
         </div>
 
         <div>
+             <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js') }}"></script>
+            <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='ckeditor/plugins/codesnippet/lib/highlight/styles/atelier-forest.light.css') }}">
             {{ posts.body|safe }}
+            <script>hljs.initHighlightingOnLoad();</script>
         </div>
 
         <div>
@@ -29,31 +32,45 @@
 
                         <div class="reply" id="{{ comment.id }}">
                         <form action method="post", role="form" class="form-inline" style="margin-top:20px;" id="f{{ comment.id }}">
-                            {{ comment_forms.hidden_tag() }}
+                            {{ reply_comment_forms.hidden_tag() }}
 
                             {% if comment.id %}
-                                <input type="hidden" name="parent" id="parent_id" value="{{ comment.id }}">
+                                <input type="hidden" name="reply_parent" id="reply_parent_id" value="{{ comment.id }}">
                             {% endif %}
 
                             <div class="form-group">
                                 <p>
                                     <label class="sr-only" for="{{ comment.id }}_username">username</label>
-                                    <input class="form-control" name="username" id="{{ comment.id }}_username" placeholder="username" type="text">
+                                    <input class="form-control" name="reply_username" id="{{ comment.id }}_username" placeholder="username" type="text">
+                                </p>
+
+                                <p>
+                                    {% for error in reply_comment_forms.reply_username.errors %}
+                                        <span style="color:red">{{ error }}</span>
+                                    {% endfor %}
                                 </p>
                             </div>
 
                             <div class="form-group">
                                 <p>
                                     <label class="sr-only" for="{{ comment.id }}_email">email</label>
-                                    <input class="form-control" name="email" id="{{ comment.id }}_email" placeholder="email" type="text">
+                                    <input class="form-control" name="reply_email" id="{{ comment.id }}_email" placeholder="email" type="text">
                                 </p>
+
+                                {% for error in reply_comment_forms.reply_email.errors %}
+                                        <span style="color:red">{{ error }}</span>
+                                {% endfor %}
                             </div>
 
                             <div class="form-group">
                                 <p>
                                     <label class="sr-only" for="{{ comment.id }}_url">url</label>
-                                    <input class="form-control" name="url" id="{{ comment.id }}_url" placeholder="url" type="text">
+                                    <input class="form-control" name="reply_url" id="{{ comment.id }}_url" placeholder="url" type="text">
                                 </p>
+
+                                {% for error in reply_comment_forms.reply_url.errors %}
+                                        <span style="color:red">{{ error }}</span>
+                                {% endfor %}
                             </div>
 
                             <div>
@@ -61,12 +78,16 @@
                                     <label class="sr-only" for="{{ comment.id }}_body">comment</label>
                                 </p>
                                 <p>
-                                    <textarea class="form-control" name="body" id="{{ comment.id }}_body" rows="5" style="width: 1000px;" placeholder="body" type="text"></textarea>
+                                    <textarea class="form-control" name="reply_body" id="{{ comment.id }}_body" rows="5" style="width: 1000px;" placeholder="body" type="text"></textarea>
                                 </p>
+
+                                {% for error in reply_comment_forms.reply_body.errors %}
+                                        <span style="color:red">{{ error }}</span>
+                                {% endfor %}
                             </div>
 
                             <div>
-                                <input class="btn btn-xs" id="submit" name="submit" type="submit" value="Submit">
+                                <input class="btn btn-xs" id="submit" name="reply_submit" type="submit" value="Submit">
                             </div>
                         </form>
                         </div>
@@ -77,9 +98,10 @@
                 {% endfor %}
             </ul>
         </div>
-
+<!--
         <div>
             {{ wtf.quick_form(comment_forms) }}
         </div>
+-->
     </div>
 {% endblock %}
