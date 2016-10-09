@@ -25,3 +25,4 @@ WTForms==2.1
 psycopg2
 flask-login
 sqlalchemy_mptt
+flask_pagedown
