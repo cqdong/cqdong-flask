@@ -7,6 +7,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
+	config.font_names = '宋体/SimSun;新宋体/NSimSun;仿宋_GB2312/FangSong_GB2312;楷体_GB2312/KaiTi_GB2312;黑体/SimHei;微软雅黑/Microsoft YaHei;'+ config.font_names;
 	config.codeSnippet_theme = 'atelier-forest.light';
 	config.skin = 'bootstrapck';
 	config.toolbar = [
@@ -28,6 +29,6 @@ CKEDITOR.editorConfig = function( config ) {
     config.image_previewText = ' ';
 	config.filebrowserUploadUrl = '/ckupload/';
 	config.filebrowserImageUploadUrl = '/ckupload/';
-	config.height = '500px';
+	config.height = '700px';
 	config.extraPlugins = 'codesnippet';
 };

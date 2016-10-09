@@ -1,21 +1,27 @@
 {% extends "base.html" %}
 {% import "_pagination.html" as pagination_macro %}
+
+{% block title %}
+    草稿箱
+{% endblock %}
+
 {% block page_content %}
     <div>
         {% for post in posts %}
 
             <div  class="post_list">
-                <h2>
+                <h2 class="title">
+                    <span class="glyphicon glyphicon-list-alt" style="font-size: 25px"></span>
                     <a href="{{ url_for('.post_detail', id=post.id) }}">
-                        <span class="glyphicon glyphicon-list-alt"></span> {{ post.title }}
+                        {{ post.title }}
                     </a>
                 </h2>
 
-                <div>
+                <div class="text">
                     {{ post.abstract|safe }}
                 </div>
 
-                <div>
+                <div class="textfoot">
                     <p>
                         创建于：{{ moment(post.create_date).format('YYYY年M月D日,HH:mm:ss') }}
                         <span class="pull-right">

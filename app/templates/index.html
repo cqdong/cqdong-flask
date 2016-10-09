@@ -1,31 +1,41 @@
 {% extends "base.html" %}
 {% import "_pagination.html" as pagination_macro %}
+
+{% block title %}
+    Cqdong's 的个人博客
+{% endblock %}
+
 {% block page_content %}
     <div>
         {% for post in posts %}
 
-            <div  class="post_list">
-                <h2>
-                    <a href="{{ url_for('.post_detail', id=post.id) }}">
-                        <span class="glyphicon glyphicon-list-alt"></span> {{ post.title }}
-                    </a>
+            <div>
+                <h2 class="title">
+                    <span class="glyphicon glyphicon-list-alt" style="font-size: 25px"></span>
+                    <a href="{{ url_for('.post_detail', id=post.id) }}">{{ post.title }}</a>
                 </h2>
 
-                <div>
+                 <p class="text-right" style="padding-right: 30px">
+                        <span class="glyphicon glyphicon-calendar"></span>{{ post.published_date}}
+                 </p>
+
+                <div class="text">
                     {{ post.abstract|safe }}
                 </div>
 
-                <div>
-                        <p>
-                            发布于：{{ post.published_date}}
-                        </p>
+                <div class="textfoot">
+                    <div style="text-align: right;">
+                        <a href="{{ url_for('.post_detail', id=post.id) }}">阅读全文</a>
+                        <a href="#">评论</a>
+                        <a href="#">阅读数</a>
+                    </div>
                 </div>
             </div>
 
         {% endfor %}
     </div>
 
-    <div>
+    <div style="border-top: 1px solid #dddcdb">
         {{ pagination_macro.pagination_widget(pagination, '.index') }}
     </div>
 

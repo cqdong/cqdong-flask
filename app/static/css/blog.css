@@ -1,9 +1,161 @@
+body {
+    /*background: #DDD6CC;*/
+    font: 14px "微软雅黑", "Arial Narrow", HELVETICA;
+    color: #3F3E3C;
+    line-height: 1.5;
+}
+
+a {
+    color: #a6a6a6;
+    text-decoration: none;
+    transition: All 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: All 0.5s ease;
+    -o-transition: All 0.5s ease;
+}
+
+a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+.title {
+    line-height: 40px;
+    display: inline-block;
+    padding: 40px 30px 10px 30px;
+    border-bottom: 1px solid #e2e2e2;
+    width: 100%;
+}
+
+.title a {
+    color: #454545;
+}
+
+.title a:hover {
+    padding: 20px;
+}
+
+.text {
+    font-size: 16px;
+    padding: 40px 30px;
+}
+
+.text p {
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+
+.textfoot {
+    padding: 20px 30px 20px 30px;
+    /*border-top: 1px solid #dddcdb;*/
+    /*border-bottom: 1px solid #dddcdb;*/
+    /*box-shadow: #999 1px 2px 3px;*/
+}
+
+.textfoot a {
+    margin-left: 10px;
+}
+
+.textfoot div {
+    color: #a6a6a6;
+    text-align: left;
+}
+
+.titledetail {
+    line-height: 40px;
+    display: inline-block;
+    padding: 40px 30px 10px 30px;
+    border-bottom: 1px solid #e2e2e2;
+    width: 100%;
+}
+
+.titledetail a:hover {
+    color: #000;
+}
+
+.blogitem {
+    background: #fff;
+}
+
+.blogitem article {
+    border-bottom: #F4F3EF 30px solid;
+}
+
+.text {
+    font-size: 16px;
+    padding: 20px 30px;
+}
+
+.text p {
+    line-height: 24px;
+    margin-bottom: 20px;
+}
+
+.textimg {
+    text-align: center;
+}
+
+.img {
+    width: 100%;
+    max-width: 500px;
+    width:expression(document.body.clientWidth > 500? "500px": "auto" );
+}/*for ie6*/
+
+.textfoot {
+    padding: 20px 30px 20px 30px;
+    border-top: 1px solid #dddcdb;
+    /*box-shadow: #999 1px 2px 3px;*/
+}
+
+.textfoot a {
+    margin-left: 10px;
+}
+
+.textfoot div {
+    color: #a6a6a6;
+    text-align: left;
+}
+
+.comments {
+    margin: 20px 30px;
+}
+
+.comments h4 {
+    padding: 10px 0px;
+    border-bottom: 2px dashed #dddcdb;
+}
+
+.comments-text {
+    /*background: red;*/
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+    border-bottom: 2px dashed #dddcdb;
+
+}
+
+.comments-margin {
+    padding-left:50px;
+}
+
+.comments-foot {
+  border-bottom: #F4F3EF 40px solid;
+}
+
+.comments-form {
+    margin-top: 30px;
+    margin-left: 30px;
+}
+
 .post_list {
     margin-bottom: 70px;
 }
 
 .cut {
-overflow:hidden;
-text-overflow:ellipsis;
-white-space: nowrap;
+    height:140px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space: normal;
 }

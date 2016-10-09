@@ -3,40 +3,51 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
 
-    {% block scripts %}
-        {{ super() }}
-        {{ moment.include_moment() }}
-        {{ moment.lang("zh-CN") }}
-    {% endblock %}
-{% endblock%}
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    {{ moment.lang("zh-CN") }}
+{% endblock %}
 
 {% block navbar %}
     <div class="navbar navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Cqdong</a>
+                <a class="navbar-brand" href="#">Cqdong</a>
             </div>
 
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a> </li>
+                    <li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a> </li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.logout') }}">Sign Out</a>
-                        {% else %}
-                            <a href="{{ url_for('auth.login') }}">Sign In</a>
-                        {% endif %}
-                    </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user">{{ current_user.username }}</span>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ url_for('.post_new') }}"><span class="glyphicon glyphicon-edit"></span> 写博文</a></li>
+                                <li><a href="{{ url_for('.post_drafts_list') }}"><span class="glyphicon glyphicon-inbox"></span> 草稿箱</a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-user"></span> 关于我</a></li>
+                                <li><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span> 退出</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ url_for('auth.login') }}"><span class="glyphicon glyphicon-log-in"></span> 登陆</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

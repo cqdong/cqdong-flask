@@ -6,6 +6,7 @@ from . import login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy_mptt.mixins import BaseNestedSets
 
+
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
@@ -17,7 +18,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comment = db.relationship('Comment', backref='post', lazy='dynamic')
 
-    def body_abstract(self, cut_length=500):
+    def body_abstract(self, cut_length=300):
         judge = None
         cut_date = []
         html_tag_date = []
@@ -52,7 +53,7 @@ class Post(db.Model):
                     html_tag = '</%s>'%html_tag
                 break
 
-        cut_date = ''.join(cut_date)+html_tag
+        cut_date = ''.join(cut_date) + '......' + html_tag
         self.abstract = cut_date
 
     def __repr__(self):

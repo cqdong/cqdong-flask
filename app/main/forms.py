@@ -1,10 +1,11 @@
 from flask_wtf import Form
 from wtforms import StringField, IntegerField, SubmitField, TextAreaField, HiddenField
 from wtforms.validators import Required, DataRequired, Email, Length, url, InputRequired
+from flask_pagedown.fields import PageDownField
 
 class PostForm(Form):
     title = StringField('Title', validators=[InputRequired()])
-    body = TextAreaField("What's on your mind?", validators=[InputRequired()])
+    body = PageDownField("What's on your mind?", validators=[InputRequired()])
     submit = SubmitField('Submit')
 
 class CommentForm(Form):

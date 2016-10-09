@@ -18,7 +18,7 @@ def gen_rnd_filename():
 def index():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.filter(Post.published_date.isnot(None)).order_by(Post.published_date.desc()).paginate(
-        page, per_page=3, error_out=False
+        page, per_page=8, error_out=False
     )
     post = pagination.items
     return render_template('index.html', current_time=datetime.utcnow(), posts=post, pagination=pagination)
@@ -42,6 +42,7 @@ def post_detail(id):
     post = Post.query.get_or_404(id)
     testmptt = TestMptt.query.filter_by(parent_id=None)
     post_comment = Comment.query.filter_by(parent_id=None, post_id=post.id)
+    post_comment_count = Comment.query.filter_by(post_id=id).count()
     comment_form = CommentForm()
     reply_comment_form = ReplyCommentForm()
 
@@ -61,7 +62,8 @@ def post_detail(id):
         return redirect(url_for('.post_detail', id=post.id))
 
     return render_template('post_detail.html', posts=post, comment_forms=comment_form,
-                           reply_comment_forms=reply_comment_form, testmptts=testmptt, comments=post_comment)
+                           reply_comment_forms=reply_comment_form, testmptts=testmptt, comments=post_comment,
+                           count=post_comment_count)
 
 
 @main.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
@@ -122,6 +124,13 @@ def post_remove(id):
     db.session.delete(post)
     return redirect(url_for('.index'))
 
+@main.route('/comment/remove/<int:id>')
+@login_required
+def comment_remove(id):
+    comment = Comment.query.get_or_404(id)
+    post_id = comment.post_id
+    db.session.delete(comment)
+    return redirect(url_for('.post_detail', id=post_id))
 
 @main.route('/drafts')
 @login_required
@@ -140,3 +149,8 @@ def post_publish(id):
     post.published_date = datetime.utcnow()
     return redirect(url_for('.index'))
 
+
+@main.route('/comment', methods=['GET', 'POST'])
+def post_comment():
+    form = CommentForm()
+    return render_template('auth/login.html', comment_forms=form)
